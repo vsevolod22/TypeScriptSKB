@@ -1,0 +1,36 @@
+$block-height: 150px;
+$logo-size: 150px;
+
+#partners {
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: $block-height !important;
+  .marquee__container {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: $block-height;
+    overflow: hidden;
+
+    .marquee {
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+  }
+  .partner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: 0 8px;
+
+    .logo {
+      width: $logo-size;
+      height: $logo-size;
+      border-radius: 50%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+  }
+}

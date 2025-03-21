@@ -1,0 +1,24 @@
+@import "variables/global";
+@import "variables/utils/variables";
+@import "reset";
+
+// PingFang SC Regular
+// PingFang SC Regular
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../fonts/Montserrat/Montserrat-VariableFont_wght.ttf")
+    format("truetype");
+}
+.app {
+  min-height: 100%;
+}
+#page {
+  > #header,
+  > hr,
+  > #footer {
+    display: none;
+  }
+}
