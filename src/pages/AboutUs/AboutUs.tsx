@@ -1,18 +1,19 @@
-import { useState, useEffect } from "react";
-import { getPosts } from "@/modules/api/api";
+import { usePosts } from "@/modules/posts/hooks/usePosts";
 import { PagePost } from "@/widgets/PostPage";
 
 export default function AboutUs() {
-  const [post, setPost] = useState<Post | undefined>();
+  const { data: posts, isLoading, isError } = usePosts("aboutus");
 
-  useEffect(() => {
-    const loadData = async () => {
-      const newPost = await getPosts("aboutus");
-      setPost(newPost[0]);
-    };
-    loadData();
-  }, []);
+  if (isLoading) {
+    return <div>Загрузка...</div>;
+  }
 
+  if (isError) {
+    return <div>Ошибка при загрузке данных</div>;
+  }
+
+  const post = posts?.[0];
+  console.log(posts);
   return (
     <>
       {post && (

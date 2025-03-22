@@ -5,20 +5,20 @@ import MediaBlock from "@/widgets/MediaBlock/MediaBlock";
 import { PageContent, PageHeader } from "@/widgets/PostPage";
 
 interface PagePostProps {
-  post: Post;
+  post: App.ProjectPost;
   isLab?: boolean;
   children?: ReactNode;
 }
 
 export default function PagePost({
   post,
-  isLab = false,
+
   children,
 }: PagePostProps) {
   return (
     <>
       <PageHeader className="header">
-        <h1>{post.name}</h1>
+        <h1>{post.title}</h1>
       </PageHeader>
       <PageContent className="content">
         {Array.isArray(post.content) &&
@@ -26,7 +26,7 @@ export default function PagePost({
             if (el.type === "mediablock") {
               return <MediaBlock key={index} images={el.value} />;
             }
-            return <div key={index}>{el.value}</div>;
+            return <div key={index}>{el.element}</div>;
           })}
         {children}
       </PageContent>
