@@ -43,6 +43,7 @@ export const fetchPosts = async (): Promise<App.PostsResult> => {
       newPost.lab = postCategories.filter((c) => c !== "projects")[0] || "";
       result.projects[post.id] = newPost;
     } else if (postCategories.includes("labs")) {
+      //@ts-ignore
       const excerptElement = Parse(post.excerpt.rendered)[0];
       newPost.previewText = (excerptElement as any)?.props?.children || "";
       result.labs[post.id] = newPost as App.LabPost;

@@ -11,7 +11,12 @@ export function CategoryPage({ category }: CategoryPageProps) {
   const categoryPosts =
     postsData?.other.filter((post) => post.categories.includes(category)) || [];
 
-  if (isLoading) return <div>Загрузка...</div>;
+  if (isLoading)
+    return (
+      <div className="mainContainer">
+        <span className="loader"></span>
+      </div>
+    );
   if (isError) return <div>Ошибка при загрузке данных</div>;
 
   return (

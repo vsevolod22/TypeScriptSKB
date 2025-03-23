@@ -16,7 +16,12 @@ interface ListProps {
 const NewsList = ({ gridConfig = { desktop: 3, mobile: 1 } }: ListProps) => {
   const { data: newsData, isLoading, isError } = useNews();
   console.log(newsData);
-  if (isLoading) return <div>Загрузка...</div>;
+  if (isLoading)
+    return (
+      <div className="mainContainer">
+        <span className="loader"></span>
+      </div>
+    );
   if (isError) return <div>Ошибка при загрузке данных</div>;
   return (
     <div style={{ margin: "0 10%" }}>

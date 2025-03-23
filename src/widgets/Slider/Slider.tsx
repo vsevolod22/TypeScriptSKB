@@ -50,7 +50,12 @@ function Slider({
     }
   }, [filteredMedia]);
 
-  if (isLoading) return <div>Загрузка медиа...</div>;
+  if (isLoading)
+    return (
+      <div className="mainContainer">
+        <span className="loader"></span>
+      </div>
+    );
   if (isError) return <div>Ошибка при загрузке медиа</div>;
 
   return (

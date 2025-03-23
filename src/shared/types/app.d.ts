@@ -197,10 +197,14 @@ declare namespace WPv2 {
 
 declare namespace SKBKit {
   export interface News {
-    id: string;
-    attid: string;
-    heading: string;
-    preview: string;
+    id: string; // Уникальный идентификатор новости
+    attid: string; // Дополнительный идентификатор (например, для вложения)
+    heading: string; // Заголовок новости
+    preview: string; // Превью новости (текст или URL изображения)
+    photos: string[]; // Массив URL фотографий
+    text: string[]; // Массив строк текста новости
+    views: number; // Количество просмотров
+    date: number; // Дата публикации в формате timestamp
   }
 
   export interface GetNewsResponse {

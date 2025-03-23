@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import MediaBlock from "@/widgets/MediaBlock/MediaBlock";
 
 import { PageContent, PageHeader } from "@/widgets/PostPage";
+import { App } from "@/shared/types/app";
 
 interface PagePostProps {
   post: App.ProjectPost;

@@ -6,7 +6,9 @@ import {
 } from "@/pages/CardListPages/CardListPages";
 import Contact from "@/pages/Contact";
 import { MainPage } from "@/pages/MainPage";
+import NewsItem from "@/pages/NewsItem/NewsItem";
 import { NotFoundPage } from "@/pages/NotFound/NotFoundPage";
+import PostPage from "@/pages/PostPage/PostPage";
 import { RouteProps } from "react-router-dom";
 
 export enum AppRoutes {
@@ -17,6 +19,8 @@ export enum AppRoutes {
   PROJECTS = "projects",
   ABOUTUS = "aboutus",
   CONTACT = "contact",
+  POST = "post",
+  CURRENTNEW = "currentnew",
 }
 
 export const RoutePath: Record<AppRoutes, string> = {
@@ -27,6 +31,8 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.PROJECTS]: "/projects",
   [AppRoutes.ABOUTUS]: "/aboutus",
   [AppRoutes.CONTACT]: "/contact",
+  [AppRoutes.POST]: "/post/:id",
+  [AppRoutes.CURRENTNEW]: "/news/:id",
 };
 
 export const routeConfig: Record<AppRoutes, RouteProps> = {
@@ -57,5 +63,13 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   [AppRoutes.CONTACT]: {
     path: RoutePath.contact,
     element: <Contact />,
+  },
+  [AppRoutes.POST]: {
+    path: RoutePath.post,
+    element: <PostPage />,
+  },
+  [AppRoutes.CURRENTNEW]: {
+    path: RoutePath.currentnew,
+    element: <NewsItem />,
   },
 };
