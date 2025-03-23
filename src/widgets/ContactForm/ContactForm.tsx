@@ -1,13 +1,13 @@
-// ContactForm.tsx
 import { useCallback } from "react";
 import { Form } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { SmartCaptcha } from "@yandex/smart-captcha";
+import { useContactForm } from "@/modules/contact/hooks/useContactForm";
 
 import "./ContactForm.styles.scss";
-import { sendContactForm } from "@/modules/api/api";
+
 import Field from "@/shared/Components/Field";
 import {
   ALLOWED_FILE_TYPES,
@@ -56,6 +56,8 @@ function ContactForm() {
     },
   });
 
+  const { mutate: submitForm, isPending } = useContactForm();
+
   const file = watch("file");
   const fileAttached = !!file && file instanceof File;
 
@@ -91,16 +93,15 @@ function ContactForm() {
       formData.append("file", data.file);
     }
 
-    try {
-      const response = await sendContactForm(formData);
-      if (response) {
+    submitForm(formData, {
+      onSuccess: () => {
         alert("Сообщение отправлено!");
         reset();
-      }
-    } catch (error) {
-      console.error("Ошибка:", error);
-      alert("Ошибка отправки.");
-    }
+      },
+      onError: () => {
+        alert("Ошибка отправки.");
+      },
+    });
   };
 
   return (
@@ -115,7 +116,7 @@ function ContactForm() {
           type="text"
           name="name"
           placeholder="Имя"
-          disabled={isSubmitting}
+          disabled={isSubmitting || isPending}
           register={register("name")}
           error={errors.name?.message}
         />
@@ -123,7 +124,7 @@ function ContactForm() {
           type="email"
           name="email"
           placeholder="E-mail"
-          disabled={isSubmitting}
+          disabled={isSubmitting || isPending}
           register={register("email")}
           error={errors.email?.message}
         />
@@ -131,7 +132,7 @@ function ContactForm() {
           type="textarea"
           name="message"
           placeholder="Опишите в этом поле свой проект и, по возможности, прикрепите файл с ТЗ"
-          disabled={isSubmitting}
+          disabled={isSubmitting || isPending}
           register={register("message")}
           error={errors.message?.message}
         />
@@ -139,7 +140,7 @@ function ContactForm() {
         <Field
           type="file"
           name="file"
-          disabled={isSubmitting}
+          disabled={isSubmitting || isPending}
           fileAttached={fileAttached}
           handleRemoveFile={handleRemoveFile}
           register={register("file", {
@@ -149,7 +150,11 @@ function ContactForm() {
         />
         <div className="submit-container">
           {watch("captcha") ? (
-            <Field type="submit" name="submit" disabled={isSubmitting} />
+            <Field
+              type="submit"
+              name="submit"
+              disabled={isSubmitting || isPending}
+            />
           ) : (
             <div className="captcha-container">
               <SmartCaptcha

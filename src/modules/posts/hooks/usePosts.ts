@@ -1,13 +1,12 @@
+// posts/api/usePosts.ts
+import { fetchPosts } from "@/modules/posts/api/get";
+import { App } from "@/shared/types/app";
 import { useQuery } from "@tanstack/react-query";
-import { fetchPosts } from "../api/get";
 
-export const usePosts = (category?: string) => {
-  return useQuery<App.ProjectPost[], Error, App.ProjectPost[]>({
-    queryKey: ["posts", category],
+export const usePosts = () => {
+  return useQuery<App.PostsResult>({
+    queryKey: ["posts"],
     queryFn: fetchPosts,
-    select: (data) => {
-      return category ? data.filter((post) => post.lab === category) : data;
-    },
-    staleTime: 1000 * 60 * 5, // 5 минут
+    staleTime: 1000 * 60 * 5,
   });
 };

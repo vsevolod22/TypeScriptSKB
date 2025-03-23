@@ -1,21 +1,38 @@
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
+import { useMedia } from "@/modules/media/hooks/useMedia";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { getMedia } from "@/modules/api/api";
 
 import "./Slider.styles.scss";
 
-function Slider({ autoPlay = false, autoPlayTime = 3000, images = false }) {
-  const [mediaList, setMediaList] = useState([]);
+interface SliderProps {
+  autoPlay?: boolean;
+  autoPlayTime?: number;
+  images?: string[];
+  category?: string;
+}
+
+function Slider({
+  autoPlay = false,
+  autoPlayTime = 3000,
+  images,
+  category = "gallery",
+}: SliderProps) {
+  const { data: mediaData, isLoading, isError } = useMedia();
   const [itemsPerSlide, setItemsPerSlide] = useState(
     window.innerWidth <= 768 ? 1 : 2
   );
   const [enableButtons, setEnableButtons] = useState(false);
 
+  // Фильтруем медиа по категории
+  const filteredMedia = images
+    ? images.map((src, id) => ({ id, src }))
+    : mediaData?.filter((media) => media.category === category) || [];
+  console.log(mediaData);
   useEffect(() => {
     const handleResize = () => {
       setItemsPerSlide(window.innerWidth <= 768 ? 1 : 2);
@@ -25,27 +42,16 @@ function Slider({ autoPlay = false, autoPlayTime = 3000, images = false }) {
   }, []);
 
   useEffect(() => {
-    const loadData = async () => {
-      console.log("hello");
-      const newMediaList = images
-        ? images.map((value, key) => ({ id: key, src: value }))
-        : await getMedia("gallery");
+    const numberOfSlides = filteredMedia.length;
+    if (numberOfSlides > 2) {
+      setEnableButtons(true);
+    } else if (numberOfSlides === 1) {
+      setItemsPerSlide(1);
+    }
+  }, [filteredMedia]);
 
-      setMediaList(newMediaList);
-
-      const numberOfSlides = newMediaList.length;
-      if (numberOfSlides > 2) {
-        setEnableButtons(true);
-      } else if (numberOfSlides == 1) {
-        setItemsPerSlide(1);
-      }
-    };
-
-    loadData();
-  }, [images]);
-
-  // Условие для проверки количества слайдов
-  const totalSlides = mediaList.length;
+  if (isLoading) return <div>Загрузка медиа...</div>;
+  if (isError) return <div>Ошибка при загрузке медиа</div>;
 
   return (
     <div className="slider">
@@ -63,16 +69,18 @@ function Slider({ autoPlay = false, autoPlayTime = 3000, images = false }) {
             : false
         }
       >
-        {mediaList.map((media, index) => (
+        {filteredMedia.map((media) => (
           <SwiperSlide
             key={media.id}
             className={
-              totalSlides === 1 ? "swiper-slide single" : "swiper-slide"
+              filteredMedia.length === 1
+                ? "swiper-slide single"
+                : "swiper-slide"
             }
           >
             <img
               src={media.src}
-              alt={`slide-${index}`}
+              alt={`slide-${media.id}`}
               className="slide-image"
             />
           </SwiperSlide>

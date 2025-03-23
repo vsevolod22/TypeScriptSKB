@@ -1,12 +1,15 @@
-import { CardList } from "@/widgets/CardList/CardList";
 import styles from "./MainPage.module.scss";
-import { labItems } from "@/pages/MainPage/ui/MainPage/mockData";
 import { HashLink } from "react-router-hash-link";
 import { useContext, useEffect } from "react";
 import { RootContext } from "@/app/Layout/Root";
 import Partners from "@/widgets/Partners";
 import Gallery from "@/pages/MainPage/ui/components/Gallery";
 import ContactUs from "@/widgets/ContactUs";
+import {
+  LabsList,
+  NewsList,
+  ProjectsList,
+} from "@/pages/CardListPages/CardListPages";
 
 const MainPage = () => {
   const { setRef } = useContext(RootContext);
@@ -38,26 +41,10 @@ const MainPage = () => {
           </HashLink>
         </section>
       </div>
-
+      <NewsList />
+      <ProjectsList />
+      <LabsList />
       <div className={styles.mainContainer}>
-        <CardList
-          items={labItems}
-          variant="news"
-          gridConfig={{ desktop: 3, mobile: 1 }}
-          title="Новости"
-        />
-        <CardList
-          items={labItems}
-          variant="lab"
-          gridConfig={{ desktop: 3, mobile: 1 }}
-          title="Лаборатории"
-        />
-        <CardList
-          items={labItems}
-          variant="project"
-          gridConfig={{ desktop: 3, mobile: 1 }}
-          title="Проекты"
-        />
         <Partners />
         <Gallery />
         <ContactUs />

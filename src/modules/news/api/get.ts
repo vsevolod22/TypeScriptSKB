@@ -1,10 +1,11 @@
 import { skbEndpoint } from "@/shared/api/wp-client";
+import { SKBKit } from "@/shared/types/app";
 
 export const fetchNews = async <T = SKBKit.News[]>(params?: {
   count?: number;
   offset?: number;
 }): Promise<SKBKit.ApiResponse<T>> => {
-  const url = new URL(`${skbEndpoint}/getnews`);
+  const url = new URL(`${skbEndpoint}skbkit/v1/getnews`);
 
   if (params) {
     if (params.count) url.searchParams.set("count", params.count.toString());

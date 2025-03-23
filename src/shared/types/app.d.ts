@@ -1,5 +1,19 @@
 // shared/types/index.ts
 
+import React from "react";
+
+declare global {
+  namespace React {
+    type ReactNode =
+      | string
+      | number
+      | boolean
+      | ReactElement
+      | null
+      | undefined;
+  }
+}
+
 declare namespace WPv2 {
   export interface Title {
     raw: string;
@@ -99,6 +113,7 @@ declare namespace WPv2 {
     class_list: string[];
     _links: Links;
   }
+
   export interface Media {
     id: number;
     date: string;
@@ -140,6 +155,18 @@ declare namespace WPv2 {
     _links: Links;
   }
 
+  export interface Tag {
+    id: number;
+    count: number;
+    description: string;
+    link: string;
+    name: string;
+    slug: string;
+    taxonomy: "post_tag";
+    meta: Meta;
+    _links: Links;
+  }
+
   export interface GetPostsParams {
     context?: "view" | "embed" | "edit";
     page?: number;
@@ -166,30 +193,14 @@ declare namespace WPv2 {
     slug?: string[];
     status?: string[];
   }
-
-  export interface CreatePostParams extends Partial<Post> {}
 }
 
 declare namespace SKBKit {
   export interface News {
-    id: number;
-    title: string;
-    content: string;
-    date: string;
-    author: string;
-    categories: string[];
-    tags: string[];
-    image_url?: string;
-    excerpt?: string;
-    status: string;
-    type: string;
-    link: string;
-    _embedded?: {
-      author?: Array<{
-        id: number;
-        name: string;
-      }>;
-    };
+    id: string;
+    attid: string;
+    heading: string;
+    preview: string;
   }
 
   export interface GetNewsResponse {
@@ -224,19 +235,7 @@ declare namespace SKBKit {
     participants?: number;
     image_url?: string;
   }
-
-  export interface GetEventsResponse {
-    events: Event[];
-  }
-
-  export interface VKCallbackParams {
-    type: string;
-    object: any;
-    group_id: number;
-    event_id?: string;
-  }
-
-  export interface ApiResponse<T> {
+  export interface ApiResponse<T = any> {
     data: T;
     headers: {
       "x-wp-total": string;
@@ -248,40 +247,49 @@ declare namespace SKBKit {
 }
 
 declare namespace App {
-  export interface MediaBlock {
-    type: "mediablock";
-    value: string[]; // Массив URL медиа-элементов
-  }
-
-  // Тип для HTML-элемента
   export interface HtmlElement {
     type: "html";
     element: {
-      type: string; // Тип элемента (например, "p", "ul", "li")
+      type: string;
       key: string | null;
       ref: null;
       props: {
-        children: ReactNode; // Дочерние элементы
-        className?: string; // Классы элемента
-        [key: string]: any; // Другие возможные атрибуты
+        children: React.ReactNode;
+        className?: string;
+        [key: string]: any;
       };
       _owner: null;
     };
   }
 
-  // Общий тип для контента поста
+  export interface MediaBlock {
+    type: "mediablock";
+    value: string[];
+  }
+
   export type ParsedContent = HtmlElement | MediaBlock;
 
-  // Тип для поста
   export interface ProjectPost {
     id: number;
     title: string;
-    content: ParsedContent[]; // Контент поста
-    lab: string; // Лаборатория (категория)
-    preview?: string; // URL превью
+    content: ParsedContent[];
+    lab: string;
+    preview: string | null;
+    categories: string[];
+    tag: string;
+    previewText?: string;
   }
 
-  // Тип для медиа-элемента
+  export interface LabPost extends ProjectPost {
+    previewText: string;
+  }
+
+  export interface PostsResult {
+    projects: Record<number, ProjectPost>;
+    labs: Record<number, LabPost>;
+    other: ProjectPost[];
+  }
+
   export interface MediaItem {
     id: number;
     src: string;
@@ -289,24 +297,11 @@ declare namespace App {
     name: string;
   }
 
-  export interface ParsedContent {
-    type: "text" | "media";
-    content?: string;
-    urls?: string[];
-  }
-
   export interface ContactFormData {
     name: string;
     email: string;
     message: string;
     subject?: string;
-  }
-
-  export interface LabPost {
-    id: number;
-    name: string;
-    previewText: string;
-    preview: string | null;
   }
 
   export interface NewsItem {

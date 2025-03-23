@@ -1,12 +1,16 @@
+// widgets/CardList/types.ts
 export interface GridConfig {
   desktop: number;
   mobile: number;
 }
+
 export interface CardData {
-  name: string; // Уникальное имя (используется как ключ)
+  id?: string; // Опционально, если используется name как уникальный идентификатор
+  name: string; // Название лаборатории
   previewText: string; // Описание
   link: string; // Ссылка
   preview: string; // URL изображения
+  variant?: "lab" | "news" | "project"; // Вариант карточки
 }
 
 export interface CardListProps {

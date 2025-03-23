@@ -1,3 +1,4 @@
+// widgets/CardList/CardList.tsx
 import { CardListProps } from "@/widgets/CardList/types";
 import styles from "./CardList.module.scss";
 import { Card } from "@/widgets/Card/Card";
@@ -15,7 +16,7 @@ export const CardList = ({
     <div>
       <h1 className={styles.title}>{title}</h1>
       <div
-        className={styles.list + " " + styles[`list__${variant}`]} // Используем classNames
+        className={classNames(styles.list, {}, [styles[`list__${variant}`]])}
         style={
           {
             "--desktop-columns": gridConfig.desktop,
@@ -24,7 +25,7 @@ export const CardList = ({
         }
       >
         {itemsArray.map((item) => (
-          <Card key={item.name} data={{ ...item, variant }} />
+          <Card key={item.id || item.name} data={{ ...item, variant }} />
         ))}
       </div>
     </div>
