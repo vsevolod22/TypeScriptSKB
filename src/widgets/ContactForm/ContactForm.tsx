@@ -19,15 +19,20 @@ const formSchema = z.object({
   email: z.string().email("Некорректный email. Пример 123@sfedu.ru"),
   message: z.string().min(1, "Обязательное поле"),
   file: z
-    .instanceof(File)
+    .any() // Используем `any`, чтобы избежать ошибки типа
     .optional()
     .nullable()
     .refine(
-      (file) => !file || file.size <= MAX_FILE_SIZE,
+      (file) => !file || file.length === 0 || file instanceof File, // Проверяем, что это File, если значение есть
+      "Файл должен быть экземпляром File"
+    )
+    .refine(
+      (file) => !file || file.length === 0 || file.size <= MAX_FILE_SIZE,
       "Файл слишком большой (макс. 10МБ)"
     )
     .refine(
-      (file) => !file || ALLOWED_FILE_TYPES.includes(file.type),
+      (file) =>
+        !file || file.length === 0 || ALLOWED_FILE_TYPES.includes(file.type),
       "Недопустимый формат файла"
     )
     .transform((value) => value ?? undefined),
@@ -60,7 +65,7 @@ function ContactForm() {
 
   const file = watch("file");
   const fileAttached = !!file && file instanceof File;
-
+  console.log(file);
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     setValue("file", selectedFile || undefined, { shouldValidate: true });

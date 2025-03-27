@@ -102,12 +102,20 @@
 
 .title {
   margin: 0 0 12px;
-  font-size: clamp(12px, 1.5vw, 20px);
+  font-size: clamp(1.25rem, 1.0011rem + 0.5199vw, 1.625rem);
   font-weight: 600;
 }
 
 .description {
-  font-size: clamp(10px, 1.3vw, 16px);
+  p {
+    font-size: clamp(1rem, 0.8755rem + 0.26vw, 1.1875rem);
+    line-height: 140%;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
   margin: 0;
 }
 
@@ -127,16 +135,39 @@
       }
     }
   }
+  .card__lab {
+    &:hover {
+      .title {
+        font-size: 20px;
+        @include mediaMax($mobile-max-widthGosBlock) {
+          font-size: 16px;
+        }
+      }
+    }
+  }
 
   .title {
-    font-size: 20px;
+    font-size: 22px;
+    @include mediaMax($mobile-max-widthGosBlock) {
+      font-size: 20px;
+    }
   }
 
   .description {
-    font-size: 16px;
+    p {
+      font-size: 16px;
+      line-height: 26px;
+      @include mediaMax($mobile-max-widthGosBlock) {
+        font-size: 15px;
+        line-height: 22px;
+      }
+    }
   }
 
   .link {
     font-size: 18px;
+    @include mediaMax($mobile-max-widthGosBlock) {
+      font-size: 16px;
+    }
   }
 }

@@ -7,7 +7,7 @@ import { classNames } from "@/shared/lib/classNames/classNames";
 export const CardList = ({
   items,
   variant = "lab", // Значение по умолчанию
-  gridConfig = { desktop: 3, mobile: 1 },
+  gridConfig = { desktop: 3, tablet: 2, mobile: 1 },
   title = "Лаборатории",
 }: CardListProps) => {
   const itemsArray = Object.values(items);
@@ -20,6 +20,7 @@ export const CardList = ({
         style={
           {
             "--desktop-columns": gridConfig.desktop,
+            "--tablet-columns": gridConfig.tablet,
             "--mobile-columns": gridConfig.mobile,
           } as React.CSSProperties
         }

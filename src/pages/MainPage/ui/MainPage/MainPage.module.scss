@@ -1,5 +1,8 @@
 .mainContainer {
   margin: 30px 10% 0 10%;
+  @include mediaMax($mobile-xs-width) {
+    margin: 30px 5% 0 5%;
+  }
 }
 
 $news-card-gap: 1em;
@@ -14,7 +17,7 @@ body {
   min-height: 100vh;
   padding: 0 10%;
   margin: 0;
-
+  margin-bottom: 20px;
   color: $text-secondary;
   background-image: url("/src/shared/assets/images/art.bmp");
   background-color: $bg-image;

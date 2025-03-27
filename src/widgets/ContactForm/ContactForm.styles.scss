@@ -6,6 +6,7 @@ $color-file-button: rgb(7, 42, 200);
   padding: 20px 22px;
   border-radius: 16px;
   height: 100%;
+  width: 100%;
   background-color: $bg-form;
   margin-top: 20px;
   h2 {
@@ -17,9 +18,12 @@ $color-file-button: rgb(7, 42, 200);
 
     @media (max-width: 768px) {
       font-size: 20px;
+      min-width: 0;
     }
   }
-
+  .smart-captcha {
+    min-width: 0;
+  }
   .inputs {
     display: flex;
     flex-direction: column;

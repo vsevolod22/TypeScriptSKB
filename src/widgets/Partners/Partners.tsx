@@ -91,7 +91,9 @@ function Partners({ partners = mock }: PartnersProps) {
 
   return (
     <div className={styles.block} id={styles.partners}>
-      <BlockHeading heading="Наши партнеры" />
+      <div className={styles.heading}>
+        <h1>Наши партнеры</h1>
+      </div>
       <div className={styles.marquee__container}>
         <Marquee
           gradient={false}

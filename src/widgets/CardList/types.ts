@@ -1,6 +1,7 @@
 // widgets/CardList/types.ts
 export interface GridConfig {
   desktop: number;
+  tablet: number;
   mobile: number;
 }
 

@@ -28,6 +28,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  margin-bottom: 30px;
+  @include mediaMax($mobile-xs-width) {
+    margin: 0 5%;
+    margin-bottom: 30px;
+  }
 }
 .loader {
   width: 336px; /* 48px * 7 */
